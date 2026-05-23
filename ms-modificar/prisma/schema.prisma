@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Persona {
+  nro_documento     String   @id @db.VarChar(10)
+  tipo_documento    String   @db.VarChar(20)
+  primer_nombre     String   @db.VarChar(30)
+  segundo_nombre    String   @db.VarChar(30)
+  apellidos         String   @db.VarChar(60)
+  fecha_nacimiento  DateTime @db.Date
+  genero            String   @db.VarChar(30)
+  correo_electronico String  @db.VarChar(100)
+  celular           String   @db.VarChar(10)
+  foto_path         String?  @db.VarChar(255)
+
+  @@map("persona")
+}
+
+model Log {
+  id             Int      @id @default(autoincrement())
+  tipo_operacion String   @db.VarChar(20)
+  nro_documento  String   @db.VarChar(10)
+  resultado      String   @db.VarChar(10)
+  usuario        String   @db.VarChar(100)
+  fecha_hora     DateTime @default(now())
+  detalle        String?
+
+  @@map("log")
+}
