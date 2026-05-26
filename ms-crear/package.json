@@ -1,0 +1,13 @@
+{
+  "name": "ms-crear",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "express": "^4.18.0",
+    "prisma": "^5.0.0"
+  }
+}
