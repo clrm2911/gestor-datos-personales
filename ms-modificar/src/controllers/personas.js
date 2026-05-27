@@ -12,6 +12,10 @@ const modificarPersona = async (req, res) => {
     return res.status(400).json({ error: 'Número de documento inválido' });
   }
 
+  if (req.file) {
+    data.foto_path = req.file.originalname;
+  }
+
   const errores = validarCampos(data);
   if (errores.length > 0) {
     try {
