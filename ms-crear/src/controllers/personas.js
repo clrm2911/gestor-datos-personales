@@ -7,17 +7,25 @@ const crearPersona = async (req, res) => {
   const usuario = req.usuario;
   const data = req.body;
 
+  if (req.file) {
+    data.foto_path = req.file.originalname;
+  }
+
   const errores = validarPersona(data);
   if (errores.length > 0) {
-    await prisma.log.create({
-      data: {
-        tipo_operacion: 'CREACION',
-        nro_documento: data.nro_documento || 'N/A',
-        resultado: 'ERROR',
-        usuario,
-        detalle: errores.join(', ')
-      }
-    });
+    try {
+      await prisma.log.create({
+        data: {
+          tipo_operacion: 'CREACION',
+          nro_documento: data.nro_documento || 'N/A',
+          resultado: 'ERROR',
+          usuario,
+          detalle: errores.join(', ')
+        }
+      });
+    } catch (logError) {
+      console.error('Error escribiendo log:', logError);
+    }
     return res.status(400).json({ error: errores });
   }
 
