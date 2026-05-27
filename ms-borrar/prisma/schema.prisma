@@ -28,4 +28,6 @@ model log {
   usuario        String   @db.VarChar(100)
   fecha_hora     DateTime @default(now())
   detalle        String?
+
+  @@map("log")
 }

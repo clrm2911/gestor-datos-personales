@@ -1,0 +1,115 @@
+/* src/pages/Login.css */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(232,160,32,0.1) 0%, transparent 60%),
+    var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative background lines */
+.login-bg-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.login-line {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * 12.5%);
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(232,160,32,0.06) 30%,
+    rgba(232,160,32,0.06) 70%,
+    transparent
+  );
+}
+
+/* Card */
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 48px 40px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), var(--shadow-accent);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.login-logo {
+  font-size: 2.5rem;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.login-divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 28px 0;
+}
+
+.login-instruction {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.login-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 24px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.login-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 20px rgba(232,160,32,0.15);
+  transform: translateY(-1px);
+}
+
+.login-footer {
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+}
