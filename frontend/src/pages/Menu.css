@@ -1,0 +1,112 @@
+/* src/pages/Menu.css */
+
+.menu-page {}
+
+.menu-header {
+  margin-bottom: 36px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 680px) {
+  .menu-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 440px) {
+  .menu-grid { grid-template-columns: 1fr; }
+}
+
+.menu-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all 200ms ease;
+  overflow: hidden;
+}
+
+.menu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.menu-card:hover::before { opacity: 1; }
+
+/* Color variants */
+.menu-card--green  { }
+.menu-card--green::before  { background: var(--color-success); }
+.menu-card--green:hover  { border-color: var(--color-success); }
+.menu-card--green .menu-card-icon { color: var(--color-success); }
+
+.menu-card--blue::before { background: var(--color-info); }
+.menu-card--blue:hover { border-color: var(--color-info); }
+.menu-card--blue .menu-card-icon { color: var(--color-info); }
+
+.menu-card--amber::before { background: var(--color-accent); }
+.menu-card--amber:hover { border-color: var(--color-accent); }
+.menu-card--amber .menu-card-icon { color: var(--color-accent); }
+
+.menu-card--red::before { background: var(--color-error); }
+.menu-card--red:hover { border-color: var(--color-error); }
+.menu-card--red .menu-card-icon { color: var(--color-error); }
+
+.menu-card--purple::before { background: #a371f7; }
+.menu-card--purple:hover { border-color: #a371f7; }
+.menu-card--purple .menu-card-icon { color: #a371f7; }
+
+.menu-card--teal::before { background: #39c5cf; }
+.menu-card--teal:hover { border-color: #39c5cf; }
+.menu-card--teal .menu-card-icon { color: #39c5cf; }
+
+.menu-card-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.menu-card-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.menu-card-desc {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.menu-card-arrow {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
+  transition: all 200ms ease;
+}
+
+.menu-card:hover .menu-card-arrow {
+  color: var(--color-text-muted);
+  transform: translate(2px, -2px);
+}
