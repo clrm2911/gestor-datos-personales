@@ -36,18 +36,18 @@ export const crearPersona = (formData) =>
   })
 
 export const consultarPersona = (nroDocumento) =>
-  api.get(`/personas/${nroDocumento}`)
+  api.get(`/personas/consultar/${nroDocumento}`)
 
 export const modificarPersona = (nroDocumento, data) =>
-  api.put(`/personas/${nroDocumento}`, data, {
+  api.put(`/personas/modificar/${nroDocumento}`, data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
 
 export const obtenerPersonaParaBorrar = (nroDocumento) =>
-  api.get(`/personas/${nroDocumento}`)
+  api.get(`/personas/borrar/${nroDocumento}`)
 
 export const borrarPersona = (nroDocumento) =>
-  api.delete(`/personas/${nroDocumento}`)
+  api.delete(`/personas/borrar/${nroDocumento}`)
 
 // ─── Log ────────────────────────────────────────────────────────────────────
 

@@ -6,6 +6,6 @@ const { extraerUsuario } = require('../middleware/usuario');
 
 const upload = multer({ limits: { fileSize: 2 * 1024 * 1024 } });
 
-router.put('/modificar/:nro_documento', extraerUsuario, upload.single('foto'), modificarPersona);
+router.put('/:nro_documento', extraerUsuario, upload.single('foto'), modificarPersona);
 
 module.exports = router;
