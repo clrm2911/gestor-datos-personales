@@ -1,6 +1,6 @@
 const extraerUsuario = (req, res, next) => {
-  req.usuario = req.headers['x-user'] || 'desconocido';
+  req.usuario = req.headers['x-usuario'] || 'desconocido';
   next();
 };
 
-module.exports = extraerUsuario;
+module.exports = { extraerUsuario };

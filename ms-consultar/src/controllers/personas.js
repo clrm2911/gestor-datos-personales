@@ -3,15 +3,19 @@ const prisma = new PrismaClient();
 
 const consultarPersona = async (req, res) => {
   const { nro_documento } = req.params;
-  const usuario = req.headers['x-user'] || 'desconocido';
+  const usuario = req.usuario;
+
+  if (!/^\d{1,10}$/.test(nro_documento)) {
+    return res.status(400).json({ error: 'Número de documento inválido' });
+  }
 
   try {
-    const persona = await prisma.persona.findUnique({
+    const persona = await prisma.Persona.findUnique({
       where: { nro_documento }
     });
 
     if (!persona) {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'CONSULTA',
           nro_documento,
@@ -23,7 +27,7 @@ const consultarPersona = async (req, res) => {
       return res.status(404).json({ error: 'Persona no encontrada' });
     }
 
-    await prisma.log.create({
+    await prisma.Log.create({
       data: {
         tipo_operacion: 'CONSULTA',
         nro_documento,
