@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { validarCampos } = require('../validators/persona.validator');
+const { validarCampos } = require('../validators/persona');
 
 const prisma = new PrismaClient();
 
