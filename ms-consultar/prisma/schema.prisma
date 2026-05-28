@@ -8,16 +8,16 @@ datasource db {
 }
 
 model Persona {
-  nro_documento     String   @id @db.VarChar(10)
-  tipo_documento    String   @db.VarChar(20)
-  primer_nombre     String   @db.VarChar(30)
-  segundo_nombre    String?   @db.VarChar(30)
-  apellidos         String   @db.VarChar(60)
-  fecha_nacimiento  DateTime @db.Date
-  genero            String   @db.VarChar(30)
-  correo_electronico String  @db.VarChar(100)
-  celular           String   @db.VarChar(10)
-  foto_path         String?  @db.VarChar(255)
+  nro_documento      String   @id @db.VarChar(10)
+  tipo_documento     String   @db.VarChar(20)
+  primer_nombre      String   @db.VarChar(30)
+  segundo_nombre     String?  @db.VarChar(30)
+  apellidos          String   @db.VarChar(60)
+  fecha_nacimiento   DateTime @db.Date
+  genero             String   @db.VarChar(30)
+  correo_electronico String   @db.VarChar(100)
+  celular            String   @db.VarChar(10)
+  foto_path          String?  @db.VarChar(255)
 
   @@map("persona")
 }
