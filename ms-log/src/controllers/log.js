@@ -15,9 +15,9 @@ const consultarLog = async (req, res) => {
       if (fecha_hasta) where.fecha_hora.lte = new Date(fecha_hasta);
     }
 
-    const total = await prisma.Log.count({ where });
+    const total = await prisma.log.count({ where });
 
-    const logs = await prisma.Log.findMany({
+    const logs = await prisma.log.findMany({
       where,
       skip: (parseInt(page) - 1) * parseInt(limit),
       take: parseInt(limit),
@@ -28,7 +28,7 @@ const consultarLog = async (req, res) => {
       total,
       page: parseInt(page),
       limit: parseInt(limit),
-      registros: logs
+      datos: logs
     });
   } catch (error) {
     return res.status(500).json({ error: 'Error al consultar el log' });
