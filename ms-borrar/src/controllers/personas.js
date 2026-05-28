@@ -10,7 +10,7 @@ const buscarPersona = async (req, res) => {
   }
   
   try {
-    const persona = await prisma.persona.findUnique({
+    const persona = await prisma.Persona.findUnique({
       where: { nro_documento }
     });
 
@@ -47,7 +47,7 @@ const borrarPersona = async (req, res) => {
     });
 
     if (!persona) {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'BORRADO',
           nro_documento,
@@ -61,7 +61,7 @@ const borrarPersona = async (req, res) => {
 
     await prisma.Persona.delete({ where: { nro_documento } });
 
-    await prisma.log.create({
+    await prisma.Log.create({
       data: {
         tipo_operacion: 'BORRADO',
         nro_documento,

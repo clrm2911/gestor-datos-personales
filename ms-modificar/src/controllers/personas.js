@@ -19,7 +19,7 @@ const modificarPersona = async (req, res) => {
   const errores = validarCampos(data);
   if (errores.length > 0) {
     try {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'MODIFICACION',
           nro_documento,
@@ -35,13 +35,13 @@ const modificarPersona = async (req, res) => {
   }
 
   try {
-    const existe = await prisma.persona.findUnique({
+    const existe = await prisma.Persona.findUnique({
       where: { nro_documento }
     });
 
     if (!existe) {
       try {
-        await prisma.log.create({
+        await prisma.Log.create({
           data: {
             tipo_operacion: 'MODIFICACION',
             nro_documento,
@@ -62,13 +62,13 @@ const modificarPersona = async (req, res) => {
       updateData.fecha_nacimiento = new Date(updateData.fecha_nacimiento);
     }
 
-    const persona = await prisma.persona.update({
+    const persona = await prisma.Persona.update({
       where: { nro_documento },
       data: updateData
     });
 
     try {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'MODIFICACION',
           nro_documento,
@@ -84,7 +84,7 @@ const modificarPersona = async (req, res) => {
     return res.status(200).json({ mensaje: 'Persona modificada exitosamente', persona });
   } catch (error) {
     try {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'MODIFICACION',
           nro_documento,

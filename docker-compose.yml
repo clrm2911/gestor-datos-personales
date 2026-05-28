@@ -131,11 +131,18 @@ services:
 
   # ── FRONTEND ──────────────────────────────────────────────────
   frontend:
-    build: ./frontend
-    container_name: gestor-frontend
-    networks:
-      - gestor-network
-    restart: unless-stopped
+      build:
+        context: ./frontend
+        args:
+          VITE_ENTRA_CLIENT_ID: ${ENTRA_CLIENT_ID}
+          VITE_ENTRA_TENANT_ID: ${ENTRA_TENANT_ID}
+          VITE_REDIRECT_URI: http://localhost
+          VITE_GATEWAY_URL: /api
+          VITE_N8N_CHAT_URL: http://localhost:5678/webhook/chat
+      container_name: gestor-frontend
+      networks:
+        - gestor-network
+      restart: unless-stopped
 
   # ── GATEWAY NGINX ─────────────────────────────────────────────
   gateway:
