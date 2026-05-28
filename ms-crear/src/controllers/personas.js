@@ -9,7 +9,7 @@ const crearPersona = async (req, res) => {
 
   const errores = validarPersona(data);
   if (errores.length > 0) {
-    await prisma.log.create({
+    await prisma.Log.create({
       data: {
         tipo_operacion: 'CREACION',
         nro_documento: data.nro_documento || 'N/A',
@@ -22,7 +22,7 @@ const crearPersona = async (req, res) => {
   }
 
   try {
-    const persona = await prisma.persona.create({
+    const persona = await prisma.Persona.create({
       data: {
         nro_documento: data.nro_documento,
         tipo_documento: data.tipo_documento,
@@ -38,7 +38,7 @@ const crearPersona = async (req, res) => {
     });
 
     try {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'CREACION',
           nro_documento: data.nro_documento,
@@ -58,7 +58,7 @@ const crearPersona = async (req, res) => {
       : error.message;
 
     try {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'CREACION',
           nro_documento: data.nro_documento,
