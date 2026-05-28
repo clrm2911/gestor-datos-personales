@@ -129,6 +129,14 @@ services:
       - gestor-network
     restart: unless-stopped
 
+  # ── FRONTEND ──────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: gestor-frontend
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
   # ── GATEWAY NGINX ─────────────────────────────────────────────
   gateway:
     image: nginx:alpine
@@ -138,6 +146,7 @@ services:
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
+      - frontend
       - ms-auth
       - ms-crear
       - ms-modificar
