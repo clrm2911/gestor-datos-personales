@@ -3,14 +3,10 @@ const prisma = new PrismaClient();
 
 const buscarPersona = async (req, res) => {
   const { nro_documento } = req.params;
-  const usuario = req.usuario;
-
-  if (!/^\d{1,10}$/.test(nro_documento)) {
-    return res.status(400).json({ error: 'Número de documento inválido' });
-  }
+  const usuario = req.headers['x-user'] || 'desconocido';
 
   try {
-    const persona = await prisma.Persona.findUnique({
+    const persona = await prisma.persona.findUnique({
       where: { nro_documento }
     });
 
