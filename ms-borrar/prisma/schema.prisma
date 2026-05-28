@@ -22,7 +22,7 @@ model Persona {
   @@map("persona")
 }
 
-model Log {
+model log {
   id             Int      @id @default(autoincrement())
   tipo_operacion String   @db.VarChar(20)
   nro_documento  String   @db.VarChar(10)

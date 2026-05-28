@@ -5,13 +5,17 @@ const buscarPersona = async (req, res) => {
   const { nro_documento } = req.params;
   const usuario = req.headers['x-user'] || 'desconocido';
 
+  if (!/^\d{1,10}$/.test(nro_documento)) {
+    return res.status(400).json({ error: 'Número de documento inválido' });
+  }
+  
   try {
     const persona = await prisma.persona.findUnique({
       where: { nro_documento }
     });
 
     if (!persona) {
-      await prisma.log.create({
+      await prisma.Log.create({
         data: {
           tipo_operacion: 'BORRADO',
           nro_documento,
@@ -31,10 +35,14 @@ const buscarPersona = async (req, res) => {
 
 const borrarPersona = async (req, res) => {
   const { nro_documento } = req.params;
-  const usuario = req.headers['x-user'] || 'desconocido';
+  const usuario = req.usuario;
+
+  if (!/^\d{1,10}$/.test(nro_documento)) {
+    return res.status(400).json({ error: 'Número de documento inválido' });
+  }
 
   try {
-    const persona = await prisma.persona.findUnique({
+    const persona = await prisma.Persona.findUnique({
       where: { nro_documento }
     });
 
@@ -51,7 +59,7 @@ const borrarPersona = async (req, res) => {
       return res.status(404).json({ error: 'Persona no encontrada' });
     }
 
-    await prisma.persona.delete({ where: { nro_documento } });
+    await prisma.Persona.delete({ where: { nro_documento } });
 
     await prisma.log.create({
       data: {
