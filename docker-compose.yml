@@ -1,0 +1,165 @@
+version: '3.9'
+
+networks:
+  gestor-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  fotos-data:
+
+services:
+
+  # ── BASE DE DATOS ─────────────────────────────────────────────
+  postgres:
+    image: postgres:16
+    container_name: gestor-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO AUTH ────────────────────────────────────────
+  ms-auth:
+    build: ./ms-auth
+    container_name: gestor-ms-auth
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ENTRA_CLIENT_ID: ${ENTRA_CLIENT_ID}
+      ENTRA_TENANT_ID: ${ENTRA_TENANT_ID}
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO CREAR ───────────────────────────────────────
+  ms-crear:
+    build: ./ms-crear
+    container_name: gestor-ms-crear
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - fotos-data:/app/fotos
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO MODIFICAR ───────────────────────────────────
+  ms-modificar:
+    build: ./ms-modificar
+    container_name: gestor-ms-modificar
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - fotos-data:/app/fotos
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO BORRAR ──────────────────────────────────────
+  ms-borrar:
+    build: ./ms-borrar
+    container_name: gestor-ms-borrar
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - fotos-data:/app/fotos
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO CONSULTAR ───────────────────────────────────
+  ms-consultar:
+    build: ./ms-consultar
+    container_name: gestor-ms-consultar
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── MICROSERVICIO LOG ─────────────────────────────────────────
+  ms-log:
+    build: ./ms-log
+    container_name: gestor-ms-log
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - gestor-network
+    restart: unless-stopped
+
+  # ── FRONTEND ──────────────────────────────────────────────────
+  frontend:
+      build:
+        context: ./frontend
+        args:
+          VITE_ENTRA_CLIENT_ID: ${ENTRA_CLIENT_ID}
+          VITE_ENTRA_TENANT_ID: ${ENTRA_TENANT_ID}
+          VITE_REDIRECT_URI: http://localhost
+          VITE_GATEWAY_URL: /api
+          VITE_N8N_CHAT_URL: http://localhost:5678/webhook/chat
+      container_name: gestor-frontend
+      networks:
+        - gestor-network
+      restart: unless-stopped
+
+  # ── GATEWAY NGINX ─────────────────────────────────────────────
+  gateway:
+    image: nginx:alpine
+    container_name: gestor-gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - ms-auth
+      - ms-crear
+      - ms-modificar
+      - ms-borrar
+      - ms-consultar
+      - ms-log
+    networks:
+      - gestor-network
+    restart: unless-stopped
